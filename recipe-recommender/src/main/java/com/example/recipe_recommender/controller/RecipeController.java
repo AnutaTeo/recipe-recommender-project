@@ -3,22 +3,27 @@ package com.example.recipe_recommender.controller;
 import com.example.recipe_recommender.model.Recipe;
 import com.example.recipe_recommender.service.RecipeService;
 import com.example.recipe_recommender.service.XPathService;
+import com.example.recipe_recommender.service.XslService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+
 @Controller
 public class RecipeController {
 
     private final RecipeService recipeService;
     private final XPathService xPathService;
+    private final XslService xslService;
 
-    public RecipeController(RecipeService recipeService, XPathService xPathService) {
+    public RecipeController(RecipeService recipeService, XPathService xPathService, XslService xslService) {
         this.recipeService = recipeService;
         this.xPathService = xPathService;
+        this.xslService = xslService;
     }
 
     @GetMapping("/recipes")
@@ -70,5 +75,30 @@ public class RecipeController {
         model.addAttribute("preferredCuisine", preferredCuisine);
 
         return "recommendations-full";
+    }
+
+    @GetMapping("/recipes/xsl")
+    public String showRecipesWithXsl(Model model) {
+        String userSkillLevel = xPathService.getFirstUserSkillLevel();
+
+        recipeService.getAllRecipes();
+
+        String transformedHtml = xslService.transformRecipesXmlToHtml(userSkillLevel);
+
+        model.addAttribute("transformedHtml", transformedHtml);
+        return "xsl-recipes";
+    }
+
+    @GetMapping("/recipes/{id}")
+    public String showRecipeDetails(@PathVariable String id, Model model) {
+        Recipe recipe = xPathService.getRecipeById(id);
+
+        if (recipe == null) {
+            model.addAttribute("errorMessage", "Recipe not found.");
+            return "recipe-details";
+        }
+
+        model.addAttribute("recipe", recipe);
+        return "recipe-details";
     }
 }

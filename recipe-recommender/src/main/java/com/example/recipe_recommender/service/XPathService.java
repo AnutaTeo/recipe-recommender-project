@@ -52,11 +52,7 @@ public class XPathService {
         try {
             String skillLevel = getFirstUserSkillLevel();
 
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new File(recipesPath));
-            document.getDocumentElement().normalize();
-
+            Document document = loadRecipesDocument();
             XPath xpath = XPathFactory.newInstance().newXPath();
 
             String expression = "/recipes/recipe[difficultyLevel='" + skillLevel + "']";
@@ -78,11 +74,7 @@ public class XPathService {
             String skillLevel = getFirstUserSkillLevel();
             String preferredCuisine = getFirstUserPreferredCuisine();
 
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(new File(recipesPath));
-            document.getDocumentElement().normalize();
-
+            Document document = loadRecipesDocument();
             XPath xpath = XPathFactory.newInstance().newXPath();
 
             String expression = "/recipes/recipe[difficultyLevel='" + skillLevel +
@@ -99,6 +91,33 @@ public class XPathService {
         return recipes;
     }
 
+    public Recipe getRecipeById(String recipeId) {
+        try {
+            Document document = loadRecipesDocument();
+            XPath xpath = XPathFactory.newInstance().newXPath();
+
+            String expression = "/recipes/recipe[@id='" + recipeId + "']";
+            Node node = (Node) xpath.evaluate(expression, document, XPathConstants.NODE);
+
+            if (node != null && node.getNodeType() == Node.ELEMENT_NODE) {
+                return convertElementToRecipe((Element) node);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private Document loadRecipesDocument() throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new File(recipesPath));
+        document.getDocumentElement().normalize();
+        return document;
+    }
+
     private List<Recipe> convertNodeListToRecipes(NodeList nodeList) {
         List<Recipe> recipes = new ArrayList<>();
 
@@ -106,26 +125,28 @@ public class XPathService {
             Node node = nodeList.item(i);
 
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element recipeElement = (Element) node;
-
-                Recipe recipe = new Recipe();
-                recipe.setId(recipeElement.getAttribute("id"));
-                recipe.setTitle(getTagValue("title", recipeElement));
-
-                List<String> cuisineTypes = new ArrayList<>();
-                NodeList cuisineNodes = recipeElement.getElementsByTagName("cuisineType");
-                for (int j = 0; j < cuisineNodes.getLength(); j++) {
-                    cuisineTypes.add(cuisineNodes.item(j).getTextContent());
-                }
-                recipe.setCuisineTypes(cuisineTypes);
-
-                recipe.setDifficultyLevel(getTagValue("difficultyLevel", recipeElement));
-
-                recipes.add(recipe);
+                recipes.add(convertElementToRecipe((Element) node));
             }
         }
 
         return recipes;
+    }
+
+    private Recipe convertElementToRecipe(Element recipeElement) {
+        Recipe recipe = new Recipe();
+        recipe.setId(recipeElement.getAttribute("id"));
+        recipe.setTitle(getTagValue("title", recipeElement));
+
+        List<String> cuisineTypes = new ArrayList<>();
+        NodeList cuisineNodes = recipeElement.getElementsByTagName("cuisineType");
+        for (int j = 0; j < cuisineNodes.getLength(); j++) {
+            cuisineTypes.add(cuisineNodes.item(j).getTextContent());
+        }
+        recipe.setCuisineTypes(cuisineTypes);
+
+        recipe.setDifficultyLevel(getTagValue("difficultyLevel", recipeElement));
+
+        return recipe;
     }
 
     private String getTagValue(String tagName, Element parent) {

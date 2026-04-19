@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>All Recipes</title>
+    <title>Recipe Details</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <meta charset="UTF-8">
 </head>
 <body>
 <div class="container">
-    <h1>All Recipes</h1>
+    <h1>Recipe Details</h1>
 
     <div class="top-links">
         <a href="/">Back to Home</a>
-        <a href="/recipes/add">Add New Recipe</a>
+        <a href="/recipes">Back to Recipes</a>
     </div>
 
-    <div th:if="${#lists.isEmpty(recipes)}">
-        <p>No recipes found.</p>
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
     </div>
 
-    <div th:each="recipe : ${recipes}" class="recipe-card">
+    <div th:if="${recipe != null}" class="recipe-card">
         <h2 th:text="${recipe.title}"></h2>
 
-        <p><strong>ID:</strong> <span th:text="${recipe.id}"></span></p>
+        <p>
+            <strong>ID:</strong>
+            <span th:text="${recipe.id}"></span>
+        </p>
 
         <p><strong>Cuisine Types:</strong></p>
         <ul>
@@ -32,8 +35,6 @@
             <strong>Difficulty Level:</strong>
             <span th:text="${recipe.difficultyLevel}"></span>
         </p>
-
-        <a th:href="@{/recipes/{id}(id=${recipe.id})}">View Details</a>
     </div>
 </div>
 </body>
