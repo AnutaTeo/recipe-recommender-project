@@ -9,7 +9,10 @@
 <div class="container">
     <h1>All Recipes</h1>
 
-    <a href="/">Back to Home</a>
+    <div class="top-links">
+        <a href="/">Back to Home</a>
+        <a href="/recipes/add">Add New Recipe</a>
+    </div>
 
     <div th:if="${#lists.isEmpty(recipes)}">
         <p>No recipes found.</p>

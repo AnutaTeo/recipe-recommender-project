@@ -9,6 +9,9 @@ public class Recipe {
     private List<String> cuisineTypes = new ArrayList<>();
     private String difficultyLevel;
 
+    private String cuisineType1;
+    private String cuisineType2;
+
     public Recipe() {
     }
 
@@ -49,6 +52,22 @@ public class Recipe {
 
     public void setDifficultyLevel(String difficultyLevel) {
         this.difficultyLevel = difficultyLevel;
+    }
+
+    public String getCuisineType1() {
+        return cuisineType1;
+    }
+
+    public void setCuisineType1(String cuisineType1) {
+        this.cuisineType1 = cuisineType1;
+    }
+
+    public String getCuisineType2() {
+        return cuisineType2;
+    }
+
+    public void setCuisineType2(String cuisineType2) {
+        this.cuisineType2 = cuisineType2;
     }
 
     @Override

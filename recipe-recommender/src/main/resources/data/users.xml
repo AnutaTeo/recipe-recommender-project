@@ -1,9 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <users>
+        
     <user id="u1">
+                
         <name>Mike</name>
+                
         <surname>Bucatarul</surname>
+                
         <cookingSkillLevel>Beginner</cookingSkillLevel>
+                
         <preferredCuisineType>Italian</preferredCuisineType>
+            
+    </user>
+    
+    <user id="u2">
+        <name>moni</name>
+        <surname>monica</surname>
+        <cookingSkillLevel>Beginner</cookingSkillLevel>
+        <preferredCuisineType>Asian</preferredCuisineType>
     </user>
 </users>

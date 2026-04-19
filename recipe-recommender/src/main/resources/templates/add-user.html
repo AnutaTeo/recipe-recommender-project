@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add User</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="container">
+    <h1>Add User</h1>
+
+    <div class="top-links">
+        <a href="/">Back to Home</a>
+        <a href="/recipes">View Recipes</a>
+    </div>
+
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form th:action="@{/users/add}" th:object="${user}" method="post" class="recipe-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}" placeholder="Enter first name">
+
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" th:field="*{surname}" placeholder="Enter surname">
+
+        <label for="cookingSkillLevel">Cooking Skill Level:</label>
+        <select id="cookingSkillLevel" th:field="*{cookingSkillLevel}">
+            <option value="">-- Select skill level --</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+        </select>
+
+        <label for="preferredCuisineType">Preferred Cuisine Type:</label>
+        <input type="text" id="preferredCuisineType" th:field="*{preferredCuisineType}" placeholder="Example: Italian">
+
+        <button type="submit">Save User</button>
+    </form>
+</div>
+</body>
+</html>
