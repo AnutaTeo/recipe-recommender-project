@@ -4,11 +4,8 @@
     <user id="u1">
                 
         <name>Mike</name>
-                
         <surname>Bucatarul</surname>
-                
-        <cookingSkillLevel>Beginner</cookingSkillLevel>
-                
+        <cookingSkillLevel>Advanced</cookingSkillLevel>
         <preferredCuisineType>Italian</preferredCuisineType>
             
     </user>
