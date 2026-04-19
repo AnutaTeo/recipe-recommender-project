@@ -1,0 +1,11 @@
+<!ELEMENT recipes (recipe+)>
+
+<!ELEMENT recipe (title, cuisineTypes, difficultyLevel)>
+<!ATTLIST recipe id CDATA #REQUIRED>
+
+<!ELEMENT title (#PCDATA)>
+
+<!ELEMENT cuisineTypes (cuisineType, cuisineType)>
+<!ELEMENT cuisineType (#PCDATA)>
+
+<!ELEMENT difficultyLevel (#PCDATA)>
