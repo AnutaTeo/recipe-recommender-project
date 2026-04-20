@@ -1,6 +1,7 @@
 package com.example.recipe_recommender.service;
 
 import com.example.recipe_recommender.model.User;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -11,26 +12,18 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
 
-    private final String filePath = System.getProperty("user.dir") + "/src/main/resources/data/users.xml";
-
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
 
         try {
-            File xmlFile = new File(filePath);
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(xmlFile);
-
-            document.getDocumentElement().normalize();
-
+            Document document = loadUsersDocument();
             NodeList userNodes = document.getElementsByTagName("user");
 
             for (int i = 0; i < userNodes.getLength(); i++) {
@@ -84,7 +77,7 @@ public class UserService {
 
     public void addUser(User user) {
         try {
-            File xmlFile = new File(filePath);
+            File xmlFile = getDataFile("users.xml");
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -120,6 +113,41 @@ public class UserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public User getUserById(String userId) {
+        List<User> users = getAllUsers();
+
+        for (User user : users) {
+            if (user.getId() != null && user.getId().equals(userId)) {
+                return user;
+            }
+        }
+
+        return null;
+    }
+
+    private Document loadUsersDocument() throws Exception {
+        File xmlFile = getDataFile("users.xml");
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(xmlFile);
+        document.getDocumentElement().normalize();
+
+        return document;
+    }
+
+    private File getDataFile(String fileName) {
+        File baseDir = new File(System.getProperty("user.dir"));
+
+        if (!new File(baseDir, "src/main/resources/data").exists()) {
+            baseDir = new File(baseDir, "recipe-recommender");
+        }
+
+        File file = new File(baseDir, "src/main/resources/data/" + fileName);
+        System.out.println("Resolved path for " + fileName + ": " + file.getAbsolutePath());
+        return file;
     }
 
     private String generateNextUserId(Document document) {

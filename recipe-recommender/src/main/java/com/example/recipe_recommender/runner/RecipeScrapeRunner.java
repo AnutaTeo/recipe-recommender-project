@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+//@Component
 public class RecipeScrapeRunner implements CommandLineRunner {
 
     private final RecipeScraperService recipeScraperService;
@@ -30,7 +30,7 @@ public class RecipeScrapeRunner implements CommandLineRunner {
             );
         }
 
-        String outputPath = "src/main/resources/data/recipes.xml";
+        String outputPath = System.getProperty("user.dir") + "/src/main/resources/data/recipes.xml";
         recipeXmlWriterService.writeRecipesToXml(recipes, outputPath);
 
         System.out.println("Successfully scraped and saved " + recipes.size() + " recipes.");

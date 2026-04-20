@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Select User for XSL View</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="container">
+    <h1>Select User for XSL Display</h1>
+
+    <div class="top-links">
+        <a href="/">Back to Home</a>
+        <a href="/recipes/xsl">Default XSL View</a>
+    </div>
+
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}"></p>
+    </div>
+
+    <form th:action="@{/recipes/xsl/select}" method="post" class="recipe-form">
+        <label for="userId">Choose User:</label>
+        <select id="userId" name="userId" required>
+            <option value="">-- Select user --</option>
+            <option th:each="user : ${users}"
+                    th:value="${user.id}"
+                    th:text="${user.name + ' ' + user.surname + ' - ' + user.cookingSkillLevel}">
+            </option>
+        </select>
+
+        <button type="submit">Show XSL View</button>
+    </form>
+</div>
+</body>
+</html>

@@ -4,16 +4,31 @@
     <user id="u1">
                 
         <name>Mike</name>
+                
         <surname>Bucatarul</surname>
+                
         <cookingSkillLevel>Advanced</cookingSkillLevel>
+                
         <preferredCuisineType>Italian</preferredCuisineType>
             
     </user>
-    
+        
     <user id="u2">
-        <name>moni</name>
-        <surname>monica</surname>
+                
+        <name>Moni</name>
+                
+        <surname>Monica</surname>
+                
         <cookingSkillLevel>Beginner</cookingSkillLevel>
+                
         <preferredCuisineType>Asian</preferredCuisineType>
+            
+    </user>
+    
+    <user id="u3">
+        <name>ana</name>
+        <surname>moni</surname>
+        <cookingSkillLevel>Intermediate</cookingSkillLevel>
+        <preferredCuisineType>French</preferredCuisineType>
     </user>
 </users>

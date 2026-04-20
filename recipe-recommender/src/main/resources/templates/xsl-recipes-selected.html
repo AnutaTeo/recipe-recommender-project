@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>XSL View for Selected User</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="container" style="padding: 20px;">
+    <p>
+        Display generated for selected user:
+        <strong th:text="${selectedUserName}"></strong>
+    </p>
+
+    <div th:utext="${transformedHtml}"></div>
+</div>
+</body>
+</html>

@@ -3,6 +3,8 @@ package com.example.recipe_recommender.runner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+
 @Component
 public class XmlValidationRunner implements CommandLineRunner {
 
@@ -14,19 +16,32 @@ public class XmlValidationRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        String base = System.getProperty("user.dir") + "/src/main/resources/data/";
+        File recipesXml = getDataFile("recipes.xml");
+        File recipesXsd = getDataFile("recipes.xsd");
+        File usersXml = getDataFile("users.xml");
+        File usersXsd = getDataFile("users.xsd");
 
         boolean recipesValid = xmlValidator.validate(
-                base + "recipes.xml",
-                base + "recipes.xsd"
+                recipesXml.getAbsolutePath(),
+                recipesXsd.getAbsolutePath()
         );
 
         boolean usersValid = xmlValidator.validate(
-                base + "users.xml",
-                base + "users.xsd"
+                usersXml.getAbsolutePath(),
+                usersXsd.getAbsolutePath()
         );
 
         System.out.println("Recipes XML valid: " + recipesValid);
         System.out.println("Users XML valid: " + usersValid);
+    }
+
+    private File getDataFile(String fileName) {
+        File baseDir = new File(System.getProperty("user.dir"));
+
+        if (!new File(baseDir, "src/main/resources/data").exists()) {
+            baseDir = new File(baseDir, "recipe-recommender");
+        }
+
+        return new File(baseDir, "src/main/resources/data/" + fileName);
     }
 }

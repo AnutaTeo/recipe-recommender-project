@@ -1,6 +1,7 @@
 package com.example.recipe_recommender.service;
 
 import com.example.recipe_recommender.model.Recipe;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
@@ -9,22 +10,20 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class XPathService {
 
-    private final String recipesPath = System.getProperty("user.dir") + "/src/main/resources/data/recipes.xml";
-    private final String usersPath = System.getProperty("user.dir") + "/src/main/resources/data/users.xml";
-
     public String getFirstUserSkillLevel() {
         try {
+            Document document = loadUsersDocument();
             XPath xpath = XPathFactory.newInstance().newXPath();
-            InputSource inputSource = new InputSource(new File(usersPath).getAbsolutePath());
 
             String expression = "/users/user[1]/cookingSkillLevel/text()";
-            return xpath.evaluate(expression, inputSource).trim();
+            return xpath.evaluate(expression, document).trim();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,11 +33,11 @@ public class XPathService {
 
     public String getFirstUserPreferredCuisine() {
         try {
+            Document document = loadUsersDocument();
             XPath xpath = XPathFactory.newInstance().newXPath();
-            InputSource inputSource = new InputSource(new File(usersPath).getAbsolutePath());
 
             String expression = "/users/user[1]/preferredCuisineType/text()";
-            return xpath.evaluate(expression, inputSource).trim();
+            return xpath.evaluate(expression, document).trim();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,11 +109,46 @@ public class XPathService {
         return null;
     }
 
-    private Document loadRecipesDocument() throws Exception {
+    public List<Recipe> getRecipesByCuisineType(String cuisineType) {
+        List<Recipe> recipes = new ArrayList<>();
+
+        try {
+            Document document = loadRecipesDocument();
+            XPath xpath = XPathFactory.newInstance().newXPath();
+
+            String expression = "/recipes/recipe[cuisineTypes/cuisineType='" + cuisineType + "']";
+            NodeList nodeList = (NodeList) xpath.evaluate(expression, document, XPathConstants.NODESET);
+
+            recipes = convertNodeListToRecipes(nodeList);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return recipes;
+    }
+
+    private Document loadUsersDocument() throws Exception {
+        ClassPathResource resource = new ClassPathResource("data/users.xml");
+        InputStream inputStream = resource.getInputStream();
+
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(new File(recipesPath));
+        Document document = builder.parse(inputStream);
         document.getDocumentElement().normalize();
+
+        return document;
+    }
+
+    private Document loadRecipesDocument() throws Exception {
+        ClassPathResource resource = new ClassPathResource("data/recipes.xml");
+        InputStream inputStream = resource.getInputStream();
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(inputStream);
+        document.getDocumentElement().normalize();
+
         return document;
     }
 

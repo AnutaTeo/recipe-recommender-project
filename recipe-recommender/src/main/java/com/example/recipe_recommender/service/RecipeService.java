@@ -1,6 +1,7 @@
 package com.example.recipe_recommender.service;
 
 import com.example.recipe_recommender.model.Recipe;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
@@ -11,26 +12,18 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class RecipeService {
 
-    private final String filePath = System.getProperty("user.dir") + "/src/main/resources/data/recipes.xml";
-
     public List<Recipe> getAllRecipes() {
         List<Recipe> recipes = new ArrayList<>();
 
         try {
-            File xmlFile = new File(filePath);
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(xmlFile);
-
-            document.getDocumentElement().normalize();
-
+            Document document = loadRecipesDocument();
             NodeList recipeNodes = document.getElementsByTagName("recipe");
 
             for (int i = 0; i < recipeNodes.getLength(); i++) {
@@ -99,7 +92,7 @@ public class RecipeService {
 
     public void addRecipe(Recipe recipe) {
         try {
-            File xmlFile = new File(filePath);
+            File xmlFile = getDataFile("recipes.xml");
 
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -139,6 +132,29 @@ public class RecipeService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private Document loadRecipesDocument() throws Exception {
+        File xmlFile = getDataFile("recipes.xml");
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(xmlFile);
+        document.getDocumentElement().normalize();
+
+        return document;
+    }
+
+    private File getDataFile(String fileName) {
+        File baseDir = new File(System.getProperty("user.dir"));
+
+        if (!new File(baseDir, "src/main/resources/data").exists()) {
+            baseDir = new File(baseDir, "recipe-recommender");
+        }
+
+        File file = new File(baseDir, "src/main/resources/data/" + fileName);
+        System.out.println("Resolved file path: " + file.getAbsolutePath());
+        return file;
     }
 
     private String generateNextRecipeId(Document document) {

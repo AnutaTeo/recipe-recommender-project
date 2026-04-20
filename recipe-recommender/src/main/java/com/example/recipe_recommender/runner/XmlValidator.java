@@ -16,13 +16,25 @@ public class XmlValidator {
 
     public boolean validate(String xmlPath, String xsdPath) {
         try {
+            File xmlFile = new File(xmlPath);
+            File xsdFile = new File(xsdPath);
+
+            System.out.println("Checking XML: " + xmlFile.getAbsolutePath());
+            System.out.println("Checking XSD: " + xsdFile.getAbsolutePath());
+            System.out.println("XML exists: " + xmlFile.exists());
+            System.out.println("XSD exists: " + xsdFile.exists());
+
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = factory.newSchema(new File(xsdPath));
+            Schema schema = factory.newSchema(xsdFile);
             Validator validator = schema.newValidator();
-            validator.validate(new StreamSource(new File(xmlPath)));
+            validator.validate(new StreamSource(xmlFile));
+
+            System.out.println("VALID: " + xmlPath);
             return true;
+
         } catch (SAXException | IOException e) {
-            System.out.println("Validation error: " + e.getMessage());
+            System.out.println("VALIDATION ERROR in: " + xmlPath);
+            System.out.println("Reason: " + e.getMessage());
             return false;
         }
     }
