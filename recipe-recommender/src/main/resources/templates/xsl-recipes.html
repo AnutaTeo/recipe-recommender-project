@@ -2,9 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Recipes Using XSL</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<div th:utext="${transformedHtml}"></div>
+<div class="container">
+    <div class="page-header">
+        <h1>Recipes Displayed with XSL</h1>
+        <p>This page shows the XML transformed into HTML using your XSL stylesheet.</p>
+    </div>
+
+    <div class="top-links">
+        <a href="/">Back to Home</a>
+        <a href="/recipes/xsl/select">XSL by Selected User</a>
+    </div>
+
+    <div class="result-card">
+        <div th:utext="${transformedHtml}"></div>
+    </div>
+</div>
 </body>
 </html>

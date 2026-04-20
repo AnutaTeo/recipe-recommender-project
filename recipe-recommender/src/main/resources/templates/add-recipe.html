@@ -4,28 +4,36 @@
     <title>Add Recipe</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div class="container">
-    <h1>Add Recipe</h1>
 
-    <a href="/recipes">Back to Recipes</a>
+    <div class="page-header">
+        <h1>Add Recipe</h1>
+        <p>Fill in the details below to save a new recipe to the XML file.</p>
+    </div>
+
+    <div class="top-links">
+        <a href="/recipes">Back to Recipes</a>
+        <a href="/">Back to Home</a>
+    </div>
 
     <div th:if="${error}" class="error-message">
         <p th:text="${error}"></p>
     </div>
 
     <form th:action="@{/recipes/add}" th:object="${recipe}" method="post" class="recipe-form">
-        <label for="title">Title:</label>
+        <label for="title">Title</label>
         <input type="text" id="title" th:field="*{title}" placeholder="Enter recipe title">
 
-        <label for="cuisineType1">Cuisine Type 1:</label>
+        <label for="cuisineType1">Cuisine Type 1</label>
         <input type="text" id="cuisineType1" th:field="*{cuisineType1}" placeholder="Example: Italian">
 
-        <label for="cuisineType2">Cuisine Type 2:</label>
+        <label for="cuisineType2">Cuisine Type 2</label>
         <input type="text" id="cuisineType2" th:field="*{cuisineType2}" placeholder="Example: European">
 
-        <label for="difficultyLevel">Difficulty Level:</label>
+        <label for="difficultyLevel">Difficulty Level</label>
         <select id="difficultyLevel" th:field="*{difficultyLevel}">
             <option value="">-- Select difficulty --</option>
             <option value="Beginner">Beginner</option>
@@ -35,6 +43,7 @@
 
         <button type="submit">Save Recipe</button>
     </form>
+
 </div>
 </body>
 </html>

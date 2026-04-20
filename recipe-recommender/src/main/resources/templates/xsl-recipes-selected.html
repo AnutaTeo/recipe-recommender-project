@@ -2,16 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>XSL View for Selected User</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<div class="container" style="padding: 20px;">
-    <p>
-        Display generated for selected user:
-        <strong th:text="${selectedUserName}"></strong>
-    </p>
+<div class="container">
 
-    <div th:utext="${transformedHtml}"></div>
+    <div class="page-header">
+        <h1>XSL View for Selected User</h1>
+        <p>
+            Display generated for selected user:
+            <strong th:text="${selectedUserName}"></strong>
+        </p>
+    </div>
+
+    <div class="top-links">
+        <a href="/">Back to Home</a>
+        <a href="/recipes/xsl/select">Choose Another User</a>
+        <a href="/recipes/xsl">Default XSL View</a>
+    </div>
+
+    <div class="result-card">
+        <div th:utext="${transformedHtml}"></div>
+    </div>
+
 </div>
 </body>
 </html>

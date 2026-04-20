@@ -4,10 +4,15 @@
     <title>Select User for XSL View</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div class="container">
-    <h1>Select User for XSL Display</h1>
+
+    <div class="page-header">
+        <h1>Select User for XSL Display</h1>
+        <p>Choose a user and generate the transformed recipe view based on their profile.</p>
+    </div>
 
     <div class="top-links">
         <a href="/">Back to Home</a>
@@ -19,7 +24,7 @@
     </div>
 
     <form th:action="@{/recipes/xsl/select}" method="post" class="recipe-form">
-        <label for="userId">Choose User:</label>
+        <label for="userId">Choose User</label>
         <select id="userId" name="userId" required>
             <option value="">-- Select user --</option>
             <option th:each="user : ${users}"
@@ -30,6 +35,7 @@
 
         <button type="submit">Show XSL View</button>
     </form>
+
 </div>
 </body>
 </html>

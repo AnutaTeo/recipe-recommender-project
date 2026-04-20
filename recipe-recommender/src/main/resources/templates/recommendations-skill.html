@@ -4,40 +4,47 @@
   <title>Recommendations by Skill</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div class="container">
-  <h1>Recommended Recipes by Cooking Skill</h1>
+
+  <div class="page-header">
+    <h1>Recommended Recipes by Cooking Skill</h1>
+    <p>These recommendations are generated using the first user found in the XML file.</p>
+  </div>
 
   <div class="top-links">
     <a href="/">Back to Home</a>
     <a href="/recipes">View All Recipes</a>
+    <a href="/recipes/recommend/full">Recommendations by Skill + Cuisine</a>
   </div>
 
-  <p>
-    Recommendations for the first user in XML with skill level:
-    <strong th:text="${userSkillLevel}"></strong>
-  </p>
+  <div class="info-strip">
+    <div class="info-chip">
+      User skill level:
+      <strong th:text="${userSkillLevel}"></strong>
+    </div>
+  </div>
 
-  <div th:if="${#lists.isEmpty(recipes)}">
+  <div th:if="${#lists.isEmpty(recipes)}" class="empty-state">
     <p>No recipes found for this skill level.</p>
   </div>
 
   <div th:each="recipe : ${recipes}" class="recipe-card">
     <h2 th:text="${recipe.title}"></h2>
 
-    <p><strong>ID:</strong> <span th:text="${recipe.id}"></span></p>
+    <div class="recipe-meta">
+      <span class="badge">ID: <span th:text="${recipe.id}"></span></span>
+      <span class="badge" th:text="${recipe.difficultyLevel}"></span>
+    </div>
 
     <p><strong>Cuisine Types:</strong></p>
     <ul>
       <li th:each="cuisine : ${recipe.cuisineTypes}" th:text="${cuisine}"></li>
     </ul>
-
-    <p>
-      <strong>Difficulty Level:</strong>
-      <span th:text="${recipe.difficultyLevel}"></span>
-    </p>
   </div>
+
 </div>
 </body>
 </html>

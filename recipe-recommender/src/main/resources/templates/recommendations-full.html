@@ -4,10 +4,15 @@
   <title>Recommendations by Skill and Cuisine</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div class="container">
-  <h1>Recommended Recipes by Skill and Preferred Cuisine</h1>
+
+  <div class="page-header">
+    <h1>Recommended Recipes by Skill and Preferred Cuisine</h1>
+    <p>These results are matched using both the user's cooking level and preferred cuisine.</p>
+  </div>
 
   <div class="top-links">
     <a href="/">Back to Home</a>
@@ -15,35 +20,35 @@
     <a href="/recipes/recommend/skill">Recommendations by Skill</a>
   </div>
 
-  <p>
-    First user skill level:
-    <strong th:text="${userSkillLevel}"></strong>
-  </p>
+  <div class="info-strip">
+    <div class="info-chip">
+      User skill level:
+      <strong th:text="${userSkillLevel}"></strong>
+    </div>
+    <div class="info-chip">
+      Preferred cuisine:
+      <strong th:text="${preferredCuisine}"></strong>
+    </div>
+  </div>
 
-  <p>
-    First user preferred cuisine:
-    <strong th:text="${preferredCuisine}"></strong>
-  </p>
-
-  <div th:if="${#lists.isEmpty(recipes)}">
+  <div th:if="${#lists.isEmpty(recipes)}" class="empty-state">
     <p>No recipes found matching both skill level and preferred cuisine.</p>
   </div>
 
   <div th:each="recipe : ${recipes}" class="recipe-card">
     <h2 th:text="${recipe.title}"></h2>
 
-    <p><strong>ID:</strong> <span th:text="${recipe.id}"></span></p>
+    <div class="recipe-meta">
+      <span class="badge">ID: <span th:text="${recipe.id}"></span></span>
+      <span class="badge" th:text="${recipe.difficultyLevel}"></span>
+    </div>
 
     <p><strong>Cuisine Types:</strong></p>
     <ul>
       <li th:each="cuisine : ${recipe.cuisineTypes}" th:text="${cuisine}"></li>
     </ul>
-
-    <p>
-      <strong>Difficulty Level:</strong>
-      <span th:text="${recipe.difficultyLevel}"></span>
-    </p>
   </div>
+
 </div>
 </body>
 </html>

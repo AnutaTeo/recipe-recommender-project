@@ -4,21 +4,28 @@
   <title>Recipe Recommender</title>
   <link rel="stylesheet" th:href="@{/css/style.css}">
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div class="container">
-  <h1>Recipe Recommender</h1>
-  <p>Semantic Web Homework Project</p>
 
-  <div class="top-links">
-    <a href="/recipes">View All Recipes</a>
-    <a href="/recipes/add">Add New Recipe</a>
-    <a href="/users/add">Add User</a>
-    <a href="/recipes/recommend/skill">Recommendations by Skill</a>
-    <a href="/recipes/recommend/full">Recommendations by Skill + Cuisine</a>
-    <a href="/recipes/xsl">Recipes Displayed with XSL</a>
-    <a href="/recipes/filter/cuisine">Filter by Cuisine</a>
-    <a href="/recipes/xsl/select">XSL by Selected User</a>
+  <div class="hero">
+    <h1>Recipe Recommender</h1>
+    <p>
+      Discover recipes, add new dishes, manage users, and explore personalized
+      recommendations based on cooking skill and cuisine preferences.
+    </p>
+
+    <div class="top-links">
+      <a href="/recipes">View All Recipes</a>
+      <a href="/recipes/add">Add New Recipe</a>
+      <a href="/users/add">Add User</a>
+      <a href="/recipes/recommend/skill">Recommendations by Skill</a>
+      <a href="/recipes/recommend/full">Recommendations by Skill + Cuisine</a>
+      <a href="/recipes/xsl">Recipes Displayed with XSL</a>
+      <a href="/recipes/filter/cuisine">Filter by Cuisine</a>
+      <a href="/recipes/xsl/select">XSL by Selected User</a>
+    </div>
   </div>
 
   <div class="dashboard-grid">
@@ -38,7 +45,11 @@
       <h3>Recommendations</h3>
       <p>See recipe recommendations using XPath based on skill level or skill + cuisine.</p>
       <a href="/recipes/recommend/skill">By Skill</a>
-      <br>
+    </div>
+
+    <div class="dashboard-card">
+      <h3>Advanced Recommendations</h3>
+      <p>Match recipes using both cooking experience and cuisine preferences.</p>
       <a href="/recipes/recommend/full">By Skill + Cuisine</a>
     </div>
 
@@ -49,17 +60,24 @@
     </div>
 
     <div class="dashboard-card">
+      <h3>Filter by Cuisine</h3>
+      <p>Select a cuisine type and retrieve matching recipes from XML using XPath.</p>
+      <a href="/recipes/filter/cuisine">Filter Recipes</a>
+    </div>
+
+    <div class="dashboard-card">
       <h3>Recipe Details</h3>
       <p>Open a specific recipe and inspect all its stored details using XPath.</p>
       <a href="/recipes">Choose a Recipe</a>
     </div>
 
     <div class="dashboard-card">
-      <h3>Filter by Cuisine</h3>
-      <p>Select a cuisine type and retrieve matching recipes from XML using XPath.</p>
-      <a href="/recipes/filter/cuisine">Filter Recipes</a>
+      <h3>XSL by User</h3>
+      <p>Select a user and generate an XSL recipe view tailored to their skill level.</p>
+      <a href="/recipes/xsl/select">Select User</a>
     </div>
   </div>
+
 </div>
 </body>
 </html>

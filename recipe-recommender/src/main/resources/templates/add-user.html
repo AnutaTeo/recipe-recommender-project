@@ -4,10 +4,15 @@
     <title>Add User</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div class="container">
-    <h1>Add User</h1>
+
+    <div class="page-header">
+        <h1>Add User</h1>
+        <p>Create a user profile to generate personalized recipe recommendations.</p>
+    </div>
 
     <div class="top-links">
         <a href="/">Back to Home</a>
@@ -19,13 +24,13 @@
     </div>
 
     <form th:action="@{/users/add}" th:object="${user}" method="post" class="recipe-form">
-        <label for="name">Name:</label>
+        <label for="name">Name</label>
         <input type="text" id="name" th:field="*{name}" placeholder="Enter first name">
 
-        <label for="surname">Surname:</label>
+        <label for="surname">Surname</label>
         <input type="text" id="surname" th:field="*{surname}" placeholder="Enter surname">
 
-        <label for="cookingSkillLevel">Cooking Skill Level:</label>
+        <label for="cookingSkillLevel">Cooking Skill Level</label>
         <select id="cookingSkillLevel" th:field="*{cookingSkillLevel}">
             <option value="">-- Select skill level --</option>
             <option value="Beginner">Beginner</option>
@@ -33,11 +38,12 @@
             <option value="Advanced">Advanced</option>
         </select>
 
-        <label for="preferredCuisineType">Preferred Cuisine Type:</label>
+        <label for="preferredCuisineType">Preferred Cuisine Type</label>
         <input type="text" id="preferredCuisineType" th:field="*{preferredCuisineType}" placeholder="Example: Italian">
 
         <button type="submit">Save User</button>
     </form>
+
 </div>
 </body>
 </html>

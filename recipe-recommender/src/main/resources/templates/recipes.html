@@ -4,37 +4,43 @@
     <title>All Recipes</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <div class="container">
-    <h1>All Recipes</h1>
+
+    <div class="page-header">
+        <h1>All Recipes</h1>
+        <p>Browse all stored recipes and open any entry to view its details.</p>
+    </div>
 
     <div class="top-links">
         <a href="/">Back to Home</a>
         <a href="/recipes/add">Add New Recipe</a>
     </div>
 
-    <div th:if="${#lists.isEmpty(recipes)}">
+    <div th:if="${#lists.isEmpty(recipes)}" class="empty-state">
         <p>No recipes found.</p>
     </div>
 
     <div th:each="recipe : ${recipes}" class="recipe-card">
         <h2 th:text="${recipe.title}"></h2>
 
-        <p><strong>ID:</strong> <span th:text="${recipe.id}"></span></p>
+        <div class="recipe-meta">
+            <span class="badge">ID: <span th:text="${recipe.id}"></span></span>
+            <span class="badge" th:text="${recipe.difficultyLevel}"></span>
+        </div>
 
         <p><strong>Cuisine Types:</strong></p>
         <ul>
             <li th:each="cuisine : ${recipe.cuisineTypes}" th:text="${cuisine}"></li>
         </ul>
 
-        <p>
-            <strong>Difficulty Level:</strong>
-            <span th:text="${recipe.difficultyLevel}"></span>
-        </p>
-
-        <a th:href="@{/recipes/{id}(id=${recipe.id})}">View Details</a>
+        <div class="actions-row">
+            <a th:href="@{/recipes/{id}(id=${recipe.id})}">View Details</a>
+        </div>
     </div>
+
 </div>
 </body>
 </html>
